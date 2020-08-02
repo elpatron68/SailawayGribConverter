@@ -6,7 +6,7 @@ This program converts Xygrib files downloaded from qtVLM for usage with Sailaway
 
 ## Usage
 
-- Download the *ZIP* file from Releases.
+- Download `SailawayGribConverter.zip` from [Releases](https://github.com/elpatron68/SailawayGribConverter/releases/latest) and extract it to a directory of your choice.
 - Download [wgrib2](https://ftp.cpc.ncep.noaa.gov/wd51we/wgrib2/Windows_64/) (download all files and copy them to a directory of your choice).
 - Create a *Desktop* shortcut (or *Autostart* shortcut) to `SailawayGribConverter.exe`.
 - Open the shorcut properties and append `"<Path to qtVLM grib directory>" "<Full path to wgrib2.exe>"` to the *Target* field in the shortcut´s properties.
