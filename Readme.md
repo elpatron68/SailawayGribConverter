@@ -27,6 +27,6 @@ It shifts the grib 3 hours to the future using `wgrib2.exe` to better match the 
 
 *Sailaway Grib Converter* uses a *File System Watcher* to get noticed about any newly created files with the extension `*.grb2` in the directory where qtVLM saves downloaded gribs.
 
-Once a grib file is downloaded, it will immediately be time-shifted to + 3 hours using `wgrib2.exe`. The new file overwrites the former (unshifted) file, so the user has to reload the Grib in qtVLM (or restart qtVLM) to let the changes take effect.
+Once a grib file is downloaded, it will immediately be time-shifted to +3 hours using `wgrib2.exe`. The new file overwrites the former (unshifted) file, so the user has to reload the Grib in qtVLM (or restart qtVLM) to let the changes take effect.
 
 Use qtVLMs *Grid Info* (`Crtl-I`) to compare the weather conditions from the game with the ones from the grid (works best if you use [Sailaway to NMEA](https://github.com/expilu/sailaway-api-to-nmea))
