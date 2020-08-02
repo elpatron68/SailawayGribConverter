@@ -22,3 +22,9 @@ It shifts the grib 3 hours to the future using `wgrib2.exe` to better match the 
 - As soon as the file is downloaded, it will be converted using `wgrib2.exe`.
 - Reload the grib file in qtVLM (*Grib* - *Grib Slot X* - *Reload*).
 - Exit the program by right-clicking on its tray icon if you don´t use it anymore.
+
+## How it works
+
+*Sailaway Grib Converter* uses a *File System Watcher* to get noticed about any newly created files with the extension `*.grb2` in the directory where qtVLM saves downloaded gribs.
+
+Once a grib file is downloaded, it will immediately be time-shifted to + 3 hours using `wgrib2.exe`. The new file overwrites the former (unshifted) file, so the user has to reload the Grib in qtVLM (or restart qtVLM).
