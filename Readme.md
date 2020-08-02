@@ -5,6 +5,7 @@ This program converts Xygrib files downloaded from qtVLM for usage with [Sailawa
 
 It shifts the grib 3 hours to the future using `wgrib2.exe` to better match the Sailaway weather calculation.
 
+*Sailaway Grib Converter* runs in the background without any user interaction.
 
 ## Installation
 
