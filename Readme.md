@@ -1,7 +1,9 @@
 # Sailaway Grib Converter
 
 
-This program converts Xygrib files downloaded from qtVLM for usage with Sailaway. It adds 3 hours to the grib using `wgrib2.exe`.
+This program converts Xygrib files downloaded from qtVLM for usage with [Sailaway](https://sailaway.world/). 
+
+It shifts the grib 3 hours to the future using `wgrib2.exe` to better match the Sailaway weather calculation.
 
 
 ## Installation
