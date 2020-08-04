@@ -13,10 +13,12 @@ public class Form1 : Form
     private NotifyIcon notifyIcon1;
     private ContextMenu contextMenu1;
     private MenuItem menuItemExit;
+    private MenuItem menuItemPause;
     private IContainer components;
-    public static string gribDirectory = @"C:\Program Files\qtVlm\grib";
-    public static string wgrib = @"C:\tools\wgrib\wgrib2.exe";
+    private static string gribDirectory = @"C:\Program Files\qtVlm\grib";
+    private static string wgrib = @"C:\tools\wgrib\wgrib2.exe";
     private FileSystemWatcher newGribFile;
+    private Boolean paused = false;
 
     [STAThread]
     static void Main()
@@ -50,18 +52,24 @@ public class Form1 : Form
             Application.Exit();
         }
 
-        this.components = new Container();
-        this.contextMenu1 = new ContextMenu();
-        this.menuItemExit = new MenuItem();
+        components = new Container();
+        contextMenu1 = new ContextMenu();
+        menuItemExit = new MenuItem();
+        menuItemPause = new MenuItem();
 
         // Initialize contextMenu1
-        this.contextMenu1.MenuItems.AddRange(
-                    new MenuItem[] { menuItemExit });
+        contextMenu1.MenuItems.AddRange(
+                    new MenuItem[] { menuItemExit, menuItemPause });
 
-        // Initialize menuItem1
-        this.menuItemExit.Index = 0;
-        this.menuItemExit.Text = "E&xit";
+        // Initialize menuItemExit
+        menuItemExit.Index = 1;
+        menuItemExit.Text = "E&xit";
         menuItemExit.Click += new EventHandler(MenuItemExit_Click);
+
+        // Initialize menuItemPause
+        menuItemPause.Index = 0;
+        menuItemPause.Text = "&Pause";
+        menuItemPause.Click += new EventHandler(MenuItemPause_Click);
 
         // Set up how the form should be displayed.
         this.ClientSize = new System.Drawing.Size(292, 266);
@@ -148,6 +156,25 @@ public class Form1 : Form
     {
         // Close the form, which closes the application.
         this.Close();
+    }
+
+
+    private void MenuItemPause_Click(object Sender, EventArgs e)
+    {
+        // Close the form, which closes the application.
+        if (paused == false)
+        {
+            menuItemPause.Text = "&Resume";
+            newGribFile.EnableRaisingEvents = false;
+            paused = true;
+        }
+        else
+        {
+            menuItemPause.Text = "&Pause";
+            newGribFile.EnableRaisingEvents = true;
+            paused = false;
+        }
+        
     }
 
     private void FileSystemWatcher_Created(object sender, FileSystemEventArgs e)
