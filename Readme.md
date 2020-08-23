@@ -26,12 +26,12 @@ It shifts the grib 3 hours to the future using `wgrib2.exe` to better match the 
 
 ### Select Time Shift
 
-Right Click on the tray icon and select `Time Shift` - `+x hour(s)` to adjust the time span the grib is moved. 
+Right click on the tray icon and select `Time Shift` - `+x hour(s)` to adjust the time span the grib is moved. 
 The selected value will be permanenty saved. Default is `+3 hours`.
 
 ### Pause
 
-Right Click on the tray icon and select `Pause` if you don´t want to automatically convert downloaded grib files.
+Right click on the tray icon and select `Pause` if you don´t want *SailawayGribConverter* to automatically convert downloaded grib files.
 
 ## How it works
 
