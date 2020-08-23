@@ -85,5 +85,8 @@
   <ItemGroup>
     <None Include="autorenew-black-18dp.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\baseline_done_black_18dp.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

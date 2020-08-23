@@ -7,6 +7,7 @@ using System.Threading;
 using System.Diagnostics;
 using System.Security.AccessControl;
 using System.Resources;
+using SailawayGribConverter.Properties;
 
 public class Form1 : Form
 {
@@ -14,11 +15,20 @@ public class Form1 : Form
     private ContextMenu contextMenu1;
     private MenuItem menuItemExit;
     private MenuItem menuItemPause;
+    private MenuItem menuItemTimeshift;
+    private MenuItem menuItemTimeshift1;
+    private MenuItem menuItemTimeshift2;
+    private MenuItem menuItemTimeshift3;
+    private MenuItem menuItemTimeshift4;
+    private MenuItem menuItemTimeshift5;
+    private MenuItem menuItemTimeshift6;
+    private MenuItem menuSeparator;
     private IContainer components;
     private static string gribDirectory = @"C:\Program Files\qtVlm\grib";
     private static string wgrib = @"C:\tools\wgrib\wgrib2.exe";
     private FileSystemWatcher newGribFile;
     private Boolean paused = false;
+    private static string TimeshiftSpan = "3";
 
     [STAThread]
     static void Main()
@@ -51,25 +61,80 @@ public class Form1 : Form
             Dispose();
             Application.Exit();
         }
+        
+        TimeshiftSpan = Settings.Default.TimeshiftSpan;
 
         components = new Container();
         contextMenu1 = new ContextMenu();
         menuItemExit = new MenuItem();
         menuItemPause = new MenuItem();
+        menuItemTimeshift = new MenuItem();
+        menuItemTimeshift1 = new MenuItem();
+        menuItemTimeshift2 = new MenuItem();
+        menuItemTimeshift3 = new MenuItem();
+        menuItemTimeshift4 = new MenuItem();
+        menuItemTimeshift5 = new MenuItem();
+        menuItemTimeshift6 = new MenuItem();
+        menuSeparator = new MenuItem("-");
 
-        // Initialize contextMenu1
-        contextMenu1.MenuItems.AddRange(
-                    new MenuItem[] { menuItemExit, menuItemPause });
+        switch (TimeshiftSpan)
+        {
+            case "1":
+                menuItemTimeshift1.Checked = true;
+                break;
+            case "2":
+                menuItemTimeshift2.Checked = true;
+                break;
+            case "3":
+                menuItemTimeshift3.Checked = true;
+                break;
+            case "4":
+                menuItemTimeshift4.Checked = true;
+                break;
+            case "5":
+                menuItemTimeshift5.Checked = true;
+                break;
+            case "6":
+                menuItemTimeshift6.Checked = true;
+                break;
+        }
+
 
         // Initialize menuItemExit
-        menuItemExit.Index = 1;
+        menuItemExit.Index = 2;
         menuItemExit.Text = "E&xit";
         menuItemExit.Click += new EventHandler(MenuItemExit_Click);
 
         // Initialize menuItemPause
-        menuItemPause.Index = 0;
+        menuItemPause.Index = 1;
         menuItemPause.Text = "&Pause";
         menuItemPause.Click += new EventHandler(MenuItemPause_Click);
+
+        // Initialize menuItemTimeshift
+        menuItemTimeshift.Index = 0;
+        menuItemTimeshift.Text = "&Timeshift";
+        menuItemTimeshift1.Text = "+1 hour";
+        menuItemTimeshift2.Text = "+2 hours";
+        menuItemTimeshift3.Text = "+3 hours";
+        menuItemTimeshift4.Text = "+4 hours";
+        menuItemTimeshift5.Text = "+5 hours";
+        menuItemTimeshift6.Text = "+6 hours";
+        menuItemTimeshift1.Click += new EventHandler(menuItemTimeshift1_Click);
+        menuItemTimeshift2.Click += new EventHandler(menuItemTimeshift2_Click);
+        menuItemTimeshift3.Click += new EventHandler(menuItemTimeshift3_Click);
+        menuItemTimeshift4.Click += new EventHandler(menuItemTimeshift4_Click);
+        menuItemTimeshift5.Click += new EventHandler(menuItemTimeshift5_Click);
+        menuItemTimeshift6.Click += new EventHandler(menuItemTimeshift6_Click);
+        menuItemTimeshift.MenuItems.Add(menuItemTimeshift1);
+        menuItemTimeshift.MenuItems.Add(menuItemTimeshift2);
+        menuItemTimeshift.MenuItems.Add(menuItemTimeshift3);
+        menuItemTimeshift.MenuItems.Add(menuItemTimeshift4);
+        menuItemTimeshift.MenuItems.Add(menuItemTimeshift5);
+        menuItemTimeshift.MenuItems.Add(menuItemTimeshift6);
+        
+        // Initialize contextMenu1
+        contextMenu1.MenuItems.AddRange(
+                    new MenuItem[] { menuItemTimeshift, menuSeparator, menuItemPause, menuItemExit });
 
         // Set up how the form should be displayed.
         this.ClientSize = new System.Drawing.Size(292, 266);
@@ -80,8 +145,7 @@ public class Form1 : Form
 
         // The Icon property sets the icon that will appear
         // in the systray for this application.
-        // notifyIcon1.Icon = new Icon("autorenew-black-18dp.ico");
-        notifyIcon1.Icon = SailawayGribConverter.Properties.Resources.autorenew_black_18dp;
+        notifyIcon1.Icon = Resources.autorenew_black_18dp;
 
         // The ContextMenu property sets the menu that will
         // appear when the systray icon is right clicked.
@@ -110,6 +174,48 @@ public class Form1 : Form
         };
         newGribFile.Created += FileSystemWatcher_Created;
         newGribFile.EnableRaisingEvents = true;
+    }
+
+    private void menuItemTimeshift6_Click(object sender, EventArgs e)
+    {
+        TimeshiftSpan = "6";
+        SaveSettings();
+        menuItemTimeshift6.Checked = true;
+    }
+
+    private void menuItemTimeshift5_Click(object sender, EventArgs e)
+    {
+        TimeshiftSpan = "5";
+        SaveSettings();
+        menuItemTimeshift5.Checked = true;
+    }
+
+    private void menuItemTimeshift4_Click(object sender, EventArgs e)
+    {
+        TimeshiftSpan = "4";
+        SaveSettings();
+        menuItemTimeshift4.Checked = true;
+    }
+
+    private void menuItemTimeshift3_Click(object sender, EventArgs e)
+    {
+        TimeshiftSpan = "3";
+        SaveSettings();
+        menuItemTimeshift3.Checked = true;
+    }
+
+    private void menuItemTimeshift2_Click(object sender, EventArgs e)
+    {
+        TimeshiftSpan = "2";
+        SaveSettings();
+        menuItemTimeshift2.Checked = true;
+    }
+
+    private void menuItemTimeshift1_Click(object sender, EventArgs e)
+    {
+        TimeshiftSpan = "1";
+        SaveSettings();
+        menuItemTimeshift1.Checked = true;
     }
 
     private Boolean CheckConditions()
@@ -186,7 +292,7 @@ public class Form1 : Form
         // set temporary file name for converted file
         string newFilename = string.Concat(Path.GetFileNameWithoutExtension(e.Name), "_temp", Path.GetExtension(e.Name));
         // wgrib2 command line arguments
-        string args = String.Concat("\"", e.Name, "\"", " -set_date +3hr -grib ", "\"", newFilename, "\"");
+        string args = String.Concat("\"", e.Name, "\"", " -set_date +", TimeshiftSpan, "hr -grib ", "\"", newFilename, "\"");
         // initialize process
         ProcessStartInfo startInfo = new ProcessStartInfo(wgrib);
         startInfo.Arguments = args;
@@ -247,5 +353,11 @@ public class Form1 : Form
         }
 
         return writeAllow && !writeDeny;
+    }
+
+    private static void SaveSettings()
+    {
+        Settings.Default.TimeshiftSpan = TimeshiftSpan;
+        Settings.Default.Save();
     }
 }
